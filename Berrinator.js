@@ -121,45 +121,56 @@ function BerrinizeText (classtag, childn, wdomain) {
 	};
 }
 
+
+function UnleashTheBerry() {
+	var images = document.getElementsByTagName('img');
+	length = images.length;
+
+	for (var i = 0; i < length; i++) {
+
+		if(berryTime() && images[i].getAttribute('Berrinated') !== 'true')
+		{
+			var orgHeight = images[i].height;
+			var orgWidth = images[i].width;
+
+			var ratio = imageRatio(images[i]);
+
+			if(ratio && (orgHeight > 22 && orgWidth > 22))
+			{
+				var number = Randomize(getBerryWithIt[ratio]());
+				var img = getBerryWithIt[ratio]()[number];
+
+				images[i].src = img.imageurl;
+				images[i].height = orgHeight;
+				images[i].width = orgWidth;
+				images[i].setAttribute('Berrinated', 'true');
+			}
+		}
+	}
+
+
+	for (var i = BerryClasses.length - 1; i >= 0; i--) {
+		BerrinizeText(BerryClasses[i].classtag, BerryClasses[i].nchild, BerryClasses[i].wdomain);
+	};
+
+}
+
+
+$(document).ajaxComplete(function(){ console.log('vlam!')});
+
 (function(document) {
 	chrome.runtime.sendMessage({method: "getBerryAmount"}, function(response) {
 
 	  	BerryAmount = parseInt(response.status);
 		getBerryWithIt.init(BerrinizeImage);
-		var images = document.getElementsByTagName('img');
-		length = images.length;
 
-		for (var i = 0; i < length; i++) {
-
-			if(berryTime() && images[i].getAttribute('Berrinated') !== 'true')
-			{
-				var orgHeight = images[i].height;
-				var orgWidth = images[i].width;
-
-				var ratio = imageRatio(images[i]);
-
-				if(ratio && (orgHeight > 22 && orgWidth > 22))
-				{
-					var number = Randomize(getBerryWithIt[ratio]());
-					var img = getBerryWithIt[ratio]()[number];
-
-					images[i].src = img.imageurl;
-					images[i].height = orgHeight;
-					images[i].width = orgWidth;
-					images[i].setAttribute('Berrinated', 'true');
-				}
-			}
-		}
+		UnleashTheBerry();
 
 
-		for (var i = BerryClasses.length - 1; i >= 0; i--) {
-			BerrinizeText(BerryClasses[i].classtag, BerryClasses[i].nchild, BerryClasses[i].wdomain);
-		};
-
-
-
-
-	});
+});
 })(document);
+
+		
+	
 
 
