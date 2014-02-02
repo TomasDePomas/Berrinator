@@ -1,9 +1,19 @@
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+
+
     if (request.method == "getBerryAmount"){
-      sendResponse({status: localStorage['enough_berry']});
+
+    	if(localStorage['enough_berry'])
+    	{
+    		sendResponse({status: localStorage['enough_berry']});		
+    	}
+    	else
+    	{
+    		sendResponse({status: 50});
+    	}
+      
       }
 });
-
 
 	
 // chrome.tabs.onUpdated.addListener(function(tabId, changeInfo) {
