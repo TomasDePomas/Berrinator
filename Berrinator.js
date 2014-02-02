@@ -123,16 +123,11 @@ function BerrinizeText (classtag, childn, wdomain) {
 
 (function(document) {
 	chrome.runtime.sendMessage({method: "getBerryAmount"}, function(response) {
-		
-	  	BerryAmount = parseInt(response.status);
 
+	  	BerryAmount = parseInt(response.status);
 		getBerryWithIt.init(BerrinizeImage);
 		var images = document.getElementsByTagName('img');
 		length = images.length;
-		console.log('vuur!');
-
-
-		XMLHttpRequest = function () { console.log('wolla ik ben een chinees') };
 
 		for (var i = 0; i < length; i++) {
 
