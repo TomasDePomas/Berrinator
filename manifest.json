@@ -18,7 +18,8 @@
 	
 	"browser_action": {
     	"default_icon": "Berresources/icons/icon_48.png",
-    	"default_title": "Berrinator"
+    	"default_title": "Berrinator",
+    	"default_popup": "options.html"
     },
 
 	"content_scripts": [ {
