@@ -20,7 +20,7 @@ function save_options() {
 function restore_options() {
   var enough = localStorage["enough_berry"];
   if (!enough) {
-    return;
+    enough = 50;
   }
   
   var range = document.getElementById("berrymount");
