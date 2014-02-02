@@ -1,0 +1,118 @@
+{	
+	"name" : "Berry Eggeninator (Egginator)",
+	"version": "0.183",
+	"homepage_url" : "http://www.cell-0.com/",
+	"description" : "You seem to need more Berry Eggen in your life, we can help you with that.",
+	
+	"icons": { 
+		"16"  : "Berresources/icons/icon_16.png",
+        "32"  : "Berresources/icons/icon_32.png",
+        "48" : "Berresources/icons/icon_48.png",
+        "128" : "Berresources/icons/icon_128.png"
+    },
+
+	"background": {
+    	"scripts": ["background.js", "Berrinator.js"],
+    	"persistent": false
+  	},
+	
+	"browser_action": {
+    	"default_icon": "Berresources/icons/icon_48.png",
+    	"default_title": "Berrinator"
+    },
+
+	"content_scripts": [ {
+		"all_frames" : true,
+		"js" : [ "Berrinator.js"],
+		"matches": ["*://*/*"]
+	} ],
+
+	"permissions": [
+	    "activeTab",
+	    "tabs",
+	    // "webRequest",
+    	"<all_urls>" 
+  	],
+	
+	"web_accessible_resources" : [
+		"Berresources/berrie1.jpg",
+		"Berresources/berrie2.jpg",
+		"Berresources/berrie3.jpg",
+		"Berresources/berrie4.jpg"
+	],
+	"options_page" : "options.html",
+	"author": "T&T: Snor en Muts",
+	"manifest_version": 2
+}
+
+
+
+// {
+//   // Required
+//   "manifest_version": 2,
+//   "name": "My Extension",
+//   "version": "versionString",
+
+//   // Recommended
+//   "default_locale": "en",
+//   "description": "A plain text description",
+//   "icons": {...},
+
+//   // Pick one (or none)
+//   "browser_action": {...},
+//   "page_action": {...},
+
+//   // Optional
+//   "author": ...,
+//   "background": {
+//     // Recommended
+//     "persistent": false
+//   },
+//   "background_page": ...,
+//   "chrome_settings_overrides": ...,
+//   "chrome_url_overrides": {...},
+//   "commands": {
+//     "global": ...
+//   },
+//   "content_pack": ...,
+//   "content_scripts": [{...}],
+//   "content_security_policy": "policyString",
+//   "converted_from_user_script": ...,
+//   "current_locale": ...,
+//   "devtools_page": ...,
+//   "externally_connectable": {
+//     "matches": ["*://*.example.com/*"]
+//   },
+//   "file_browser_handlers": [...],
+//   "homepage_url": "http://path/to/homepage",
+//   "import": ...,
+//   "incognito": "spanning or split",
+//   "input_components": ...,
+//   "key": "publicKey",
+//   "minimum_chrome_version": "versionString",
+//   "nacl_modules": [...],
+//   "oauth2": ...,
+//   "offline_enabled": true,
+//   "omnibox": {
+//     "keyword": "aString"
+//   },
+//   "optional_permissions": ...,
+//   "options_page": "aFile.html",
+//   "page_actions": ...,
+//   "permissions": [...],
+//   "platforms": ...,
+//   "plugins": [...],
+//   "requirements": {...},
+//   "sandbox": [...],
+//   "script_badge": ...,
+//   "short_name": "Short Name",
+//   "signature": ...,
+//   "spellcheck": ...,
+//   "storage": {
+//     "managed_schema": "schema.json"
+//   },
+//   "system_indicator": ...,
+//   "tts_engine": ...,
+//   "update_url": "http://path/to/updateInfo.xml",
+//   "web_accessible_resources": [...]
+// }
