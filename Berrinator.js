@@ -45,6 +45,8 @@ function berryTime(){
 
 function UnleashTheBerry() {
 
+	// console.log("unleashed");
+
 	var MethodsToRun = REPLACEMENTS.filter(function(value){
 		if(value.minberrylvl <= BerryAmount)
 		{
@@ -71,7 +73,7 @@ function  Replacement (functioncall, minberrylvl){
 var REPLACEMENTS = [
 		new Replacement(replaceImages, 0),
 		new Replacement(replaceText, 80),
-		new Replacement(replaceTitle, 95)
+		// new Replacement(replaceTitle, 95)
 	]
 
 
@@ -217,17 +219,13 @@ var BerrinizeImage = [
 
 function pickBerry(ratio)
 {
-	console.log('Picking Berries!');
-
 	for (var i = BerryRatios.length - 1; i >= 0; i--) {
 		if(ratio >= BerryRatios[i]) {
 			var sizedBerries = BerrinizeImage.filter(function(obj){
 				return obj.ratio == BerryRatios[i];
 			});
-			console.log('Berries picked: ');
-			console.log(sizedBerries);
 			var chosenBerry = sizedBerries[Randomize(sizedBerries)];
-			console.log('Berry chosen: ');
+			console.log('Berry picked: ');
 			console.log(chosenBerry);
 			return chosenBerry;
 		}
@@ -236,11 +234,6 @@ function pickBerry(ratio)
 
 function replaceImages()
 {
-
-	
-
-	
-
 	console.log('Replacing images');
 	
 	var images = document.getElementsByTagName('img');
@@ -250,7 +243,6 @@ function replaceImages()
 
 		if(berryTime() && images[i].getAttribute('Berrinated') !== 'true')
 		{
-			console.log('Berry Time!');
 			var orgHeight = images[i].height;
 			var orgWidth = images[i].width;
 
@@ -325,35 +317,93 @@ function BerrinizeText (classtag, childn, wdomain) {
 
 //------------------------------ REPLACE TITLE ---------------------------------------------------
 
-function replaceTitle()
-{
-	if(berryTime())
-	{
-		switch(document.title)
-		{
-			case contains('Facebook'):
-				document.title = 'BerryBook';	
-			break;
+// function replaceTitle()
+// {
+// 	if(berryTime())
+// 	{
+// 		switch(document.title)
+// 		{
+// 			case contains('Facebook'):
+// 				document.title = 'BerryBook';	
+// 			break;
 			
-			default: 
-				document.title = 'Berry Eggen';	
-			break;
+// 			default: 
+// 				document.title = 'Berry Eggen';	
+// 			break;
 			
-		}
+// 		}
+// 	}
+// }
 
-		
-	}
-}
 //_______________________________________________________________________________________________
 //============================== APPLICATION START ==============================================
 
-(function(document) {
-	chrome.runtime.sendMessage({method: "getBerryAmount"}, function(response) {
+// (function(document) {
+// 	console.log("hihih");
+// 	chrome.runtime.sendMessage({method: "getBerryAmount"}, function(response) {
 
-	  	BerryAmount = parseInt(response.status);
+// 	  	BerryAmount = parseInt(response.status);
+// 		UnleashTheBerry();
+// 	});
+// })(document);
+
+// (function() {
+// 	console.log("GAAAAA");
+// })();
+
+
+// function initBerryAmount() {
+
+// }
+
+(function() {
+ //  	if(localStorage['enough_berry'])
+	// {
+	// 	BerryAmount = localStorage['enough_berry'];		
+	// }
+	// else
+	// {
+	// 	BerryAmount = 50;
+	// }
+
+	// var enough = chrome.storage.local.get('enough_berry');
+	var enough;
+	// chrome.storage.sync.set({'testval' : 50});
+	// chrome.storage.sync.get('testval', function(val){
+	// 	console.log("Jallaaa: " + val);
+	// });
+
+	chrome.storage.sync.get('enough_berry', function(val){
+		enough = val['enough_berry'];
+
+		if(enough)
+		{
+			BerryAmount = enough;		
+		}
+		else
+		{
+			BerryAmount = 50;
+		}
+
+		console.log("BerryAmount: " + BerryAmount);
 		UnleashTheBerry();
-});
-})(document);
+	});
+})();
+
+
+function WRAAAAA(){
+	console.log("WRAAAAA");
+}
+// chrome.runtime.onMessage.addListener(function(request) {
+
+	// console.log("JALAJLAJALJALA");
+
+	// if (request.method == "UnleashTheBerry") {
+		// console.log("UNLEASHEDFROMOPTIONS");
+		// UnleashTheBerry();
+	// }
+// });
+
 
 		
 	

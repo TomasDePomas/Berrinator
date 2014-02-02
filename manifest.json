@@ -12,7 +12,7 @@
     },
 
 	"background": {
-    	"scripts": [ "jquery-1.10.1.js", "background.js"],
+    	"scripts": [ "jquery-1.10.1.js", "Berrinator.js"],
     	"persistent": false
   	},
 	
@@ -24,14 +24,15 @@
 
 	"content_scripts": [ {
 		"all_frames" : true,
-		"js" : [ "jquery-1.10.1.js", "background.js", "Berrinator.js"],
+		"js" : [ "jquery-1.10.1.js", "Berrinator.js"],
 		"matches": ["*://*/*"]
 	} ],
 
 	"permissions": [
 	    "activeTab",
 	    "tabs",
-    	"<all_urls>" 
+    	"<all_urls>",
+    	"storage"
   	],
 	
 	"web_accessible_resources" : [
