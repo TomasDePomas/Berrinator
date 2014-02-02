@@ -23,7 +23,7 @@
 //_______________________________________________________________________________________________
 ///============================= COMMONS ========================================================
 
-var BerryAmount;
+var BerryAmount = false;
 
 function Randomize (array){
 	return Math.floor(Math.random() * array.length);
@@ -71,7 +71,7 @@ function  Replacement (functioncall, minberrylvl){
 var REPLACEMENTS = [
 		new Replacement(replaceImages, 0),
 		new Replacement(replaceText, 80),
-		new Replacement(replaceTitle, 95)
+		new Replacement(replaceTitle, 95),
 	]
 
 
@@ -217,18 +217,13 @@ var BerrinizeImage = [
 
 function pickBerry(ratio)
 {
-	console.log('Picking Berries!');
 
 	for (var i = BerryRatios.length - 1; i >= 0; i--) {
 		if(ratio >= BerryRatios[i]) {
 			var sizedBerries = BerrinizeImage.filter(function(obj){
 				return obj.ratio == BerryRatios[i];
 			});
-			console.log('Berries picked: ');
-			console.log(sizedBerries);
 			var chosenBerry = sizedBerries[Randomize(sizedBerries)];
-			console.log('Berry chosen: ');
-			console.log(chosenBerry);
 			return chosenBerry;
 		}
 	};
@@ -236,12 +231,6 @@ function pickBerry(ratio)
 
 function replaceImages()
 {
-
-	
-
-	
-
-	console.log('Replacing images');
 	
 	var images = document.getElementsByTagName('img');
 	length = images.length;
@@ -250,7 +239,6 @@ function replaceImages()
 
 		if(berryTime() && images[i].getAttribute('Berrinated') !== 'true')
 		{
-			console.log('Berry Time!');
 			var orgHeight = images[i].height;
 			var orgWidth = images[i].width;
 
@@ -278,14 +266,13 @@ function BerryTextClassTag (classtag, nchild, wdomain){
 }
 
 function replaceText(){
-	console.log('Replacing text');
 
 	var BerryTextClasses = [
 		new BerryTextClassTag('_52zl', false, 'facebook'),
 		new BerryTextClassTag('fwb', false, 'facebook'),
 		new BerryTextClassTag('fwb', 0, 'facebook'),
+		new BerryTextClassTag('actorName', 2, 'facebook'),
 		new BerryTextClassTag('profileLink', false, 'facebook'),
-
 		new BerryTextClassTag('actorDescription actorName', 0, 'facebook'),
 		new BerryTextClassTag('titlebarText', false, 'facebook'),
 		new BerryTextClassTag('UFICommentActorName', false, 'facebook'),
@@ -329,10 +316,23 @@ function replaceTitle()
 {
 	if(berryTime())
 	{
-		switch(document.title)
+
+		switch(true)
 		{
-			case contains('Facebook'):
+			case /Berry/.test(document.title):
+			case /Eggen/.test(document.title):
+			break;
+			
+			case /Facebook/.test(document.title):
 				document.title = 'BerryBook';	
+			break;
+
+			case /Google\+/.test(document.title):
+				document.title = 'Eggen+';	
+			break;
+
+			case /LinkedIn/.test(document.title):
+				document.title = 'BerriedIn';	
 			break;
 			
 			default: 
@@ -344,10 +344,63 @@ function replaceTitle()
 		
 	}
 }
+
+
+//------------------------------ REPLACE NORMAL TEXT      [WIP]  --------------------------------
+
+function replaceNormalText()
+{
+
+	var crawlableElements = [
+		document.getElementsByTagName('div'),
+		document.getElementsByTagName('p'),
+		document.getElementsByTagName('span'),
+		document.getElementsByTagName('h1'),
+		document.getElementsByTagName('h2'),
+		document.getElementsByTagName('h3'),
+		document.getElementsByTagName('h4')
+	]
+
+	for (var i = crawlableElements.length - 1; i >= 0; i--) {
+		for (var i = crawlableElements[i].length - 1; j >= 0; j--) {
+			st
+			crawlableElements[i][j]
+		};
+	};
+
+	if(berryTime())
+	{
+		
+	}
+}
+
+
 //_______________________________________________________________________________________________
 //============================== APPLICATION START ==============================================
+//============================== AND GLOBAL LISTNERS ============================================
 
 (function(document) {
+
+	// $(document).ajaxComplete(function( event, xhr, settings ) {
+	// 	console.log('iets geladen');
+	// });
+	// window.XMLHttpRequest = function () {console.log('iets geladen!')};
+	document.addEventListener ('DOMNodeInserted', onNewElement, false);
+
+	function onNewElement() 
+		{
+			document.removeEventListener ('DOMNodeInserted', onNewElement);
+
+			setInterval(function()
+				{
+					document.addEventListener ('DOMNodeInserted', onNewElement);
+				}, round(10 * (2000 / BerryAmount)));
+			if(BerryAmount)
+			{
+				UnleashTheBerry();
+			}
+		}
+
 	chrome.runtime.sendMessage({method: "getBerryAmount"}, function(response) {
 
 	  	BerryAmount = parseInt(response.status);
