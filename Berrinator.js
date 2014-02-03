@@ -70,8 +70,9 @@ function  Replacement (functioncall, minberrylvl){
 
 var REPLACEMENTS = [
 		new Replacement(replaceImages, 0),
-		new Replacement(replaceText, 80),
+		new Replacement(replaceText, 10),
 		new Replacement(replaceTitle, 95),
+		new Replacement(replaceNormalText, 95),
 	]
 
 
@@ -232,12 +233,12 @@ function pickBerry(ratio)
 function replaceImages()
 {
 	
-	var images = document.getElementsByTagName('img');
+	var images = $('img:not([Berrinated])');
 	length = images.length;
 
 	for (var i = 0; i < length; i++) {
 
-		if(berryTime() && images[i].getAttribute('Berrinated') !== 'true')
+		if(berryTime())
 		{
 			var orgHeight = images[i].height;
 			var orgWidth = images[i].width;
@@ -251,41 +252,64 @@ function replaceImages()
 				images[i].src = img.imageurl;
 				images[i].height = orgHeight;
 				images[i].width = orgWidth;
-				images[i].setAttribute('Berrinated', 'true');
 			}
 		}
+		images[i].setAttribute('alt', "Berry Eggen");
+		images[i].setAttribute('Berrinated', 'true');
 	}
 }
 
 //------------------------------ REPLACE TEXT ---------------------------------------------------
 
-function BerryTextClassTag (classtag, nchild, wdomain){
-	this.classtag = classtag;
-	this.nchild = nchild;
+function BerryTextClassTag (selector, nthChild, wdomain, alterText){
+	this.selector = selector;
 	this.wdomain = wdomain;
+	this.nthChild = nthChild;
+	if(typeof alterText == 'undefined')
+	{
+		this.alterText = 'Berry Eggen'
+	}
+	else
+	{
+		this.alterText = alterText;	
+	}
 }
 
 function replaceText(){
 
 	var BerryTextClasses = [
-		new BerryTextClassTag('_52zl', false, 'facebook'),
-		new BerryTextClassTag('fwb', false, 'facebook'),
-		new BerryTextClassTag('fwb', 0, 'facebook'),
-		new BerryTextClassTag('actorName', 2, 'facebook'),
-		new BerryTextClassTag('profileLink', false, 'facebook'),
-		new BerryTextClassTag('actorDescription actorName', 0, 'facebook'),
-		new BerryTextClassTag('titlebarText', false, 'facebook'),
-		new BerryTextClassTag('UFICommentActorName', false, 'facebook'),
-		new BerryTextClassTag('fbRemindersTitle', 0, 'facebook'),
+		new BerryTextClassTag('._52zl', false, 'facebook'),
+		
+		// new BerryTextClassTag('.fwb', 0, 'facebook'),
+		//new BerryTextClassTag('.fwb', false,  'facebook'),
+		
+		new BerryTextClassTag('.actorName', 2, 'facebook'),
+		// new BerryTextClassTag('.profileLink', false,  'facebook'),
+		new BerryTextClassTag('.actorDescription .actorName', 0, 'facebook'),
+		new BerryTextClassTag('.titlebarText', false,  'facebook'),
+		new BerryTextClassTag('.UFICommentActorName', false, 'facebook'),
+		new BerryTextClassTag('.fbRemindersTitle', 0, 'facebook'),
+
+		new BerryTextClassTag('.Ri', 0, 'google'),
+		new BerryTextClassTag('.fR', 0, 'google'),
+		new BerryTextClassTag('.mG', false,  'google'),
+		new BerryTextClassTag('.Gyc', 0, 'google'),
+		new BerryTextClassTag('.Ub', false,  'google'),
+		new BerryTextClassTag('.vF', false,  'google'),
+		new BerryTextClassTag('.R9a', false,  'google'),
+
+
+		// new BerryTextClassTag('tryitbtn', 0, 'w3schools'),
 	]
 
-	for (var i = BerryTextClasses.length - 1; i >= 0; i--) {
-		BerrinizeText(BerryTextClasses[i].classtag, BerryTextClasses[i].nchild, BerryTextClasses[i].wdomain);
+	for (var i =  0; i < BerryTextClasses.length; i++) {
+		BerrinizeText(BerryTextClasses[i].selector, BerryTextClasses[i].wdomain, BerryTextClasses[i].nthChild, BerryTextClasses[i].alterText);
 	};
 }
 
-function BerrinizeText (classtag, childn, wdomain) {
-	taggs = document.getElementsByClassName(classtag);
+function BerrinizeText (selector, wdomain, nthChild, alterText) {
+	
+	taggs = $(selector + ':not([Berrinated])');
 	webbits = document.URL.split('.');
 	
 	if(webbits.indexOf(wdomain) === -1)
@@ -294,19 +318,18 @@ function BerrinizeText (classtag, childn, wdomain) {
 	}
 
 	for (var i = taggs.length - 1; i >= 0; i--) {
-		if(berryTime() && typeof taggs[i] !== 'undefined' && taggs[i].getAttribute('Berrinated') !== 'true')
-		{			
-
-			if(childn !== false && taggs[i].childNodes.length !== 0)
+		if(berryTime() && typeof taggs[i] !== 'undefined')
+		{
+			if(nthChild)
 			{
-				taggs[i].childNodes[childn].innerHTML = "Berry Eggen";	
+				taggs[i].eq(nthChild).innerHTML = alterText;
 			}
 			else
 			{
-				taggs[i].innerHTML = "Berry Eggen";
+				taggs[i].innerHTML = alterText;
 			}
-			taggs[i].setAttribute('Berrinated', 'true');
 		}
+		taggs[i].setAttribute('Berrinated', 'true');
 	};
 }
 
@@ -322,9 +345,13 @@ function replaceTitle()
 			case /Berry/.test(document.title):
 			case /Eggen/.test(document.title):
 			break;
-			
+
 			case /Facebook/.test(document.title):
 				document.title = 'BerryBook';	
+			break;
+
+			case /JavaScript/.test(document.title):
+				document.title = 'BerryScript';	
 			break;
 
 			case /Google\+/.test(document.title):
@@ -350,11 +377,7 @@ function replaceTitle()
 
 function replaceNormalText()
 {
-
 	var crawlableElements = [
-		document.getElementsByTagName('div'),
-		document.getElementsByTagName('p'),
-		document.getElementsByTagName('span'),
 		document.getElementsByTagName('h1'),
 		document.getElementsByTagName('h2'),
 		document.getElementsByTagName('h3'),
@@ -362,17 +385,13 @@ function replaceNormalText()
 	]
 
 	for (var i = crawlableElements.length - 1; i >= 0; i--) {
-		for (var i = crawlableElements[i].length - 1; j >= 0; j--) {
-			st
-			crawlableElements[i][j]
+		for (var j = crawlableElements[i].length - 1; j >= 0; j--) {
+			crawlableElements[i][j].innerHTML = crawlableElements[i][j].innerHTML.replace(/([A-Z][a-z]*[A-Z][a-z]*)/g, 'BerryEggen');
+			crawlableElements[i][j].innerHTML = crawlableElements[i][j].innerHTML.replace(/([A-Z][a-z]*\s[A-Z][a-z]*)/g, 'Berry Eggen');
 		};
 	};
 
-	if(berryTime())
-	{
-		
-	}
-}
+}	
 
 
 //_______________________________________________________________________________________________
@@ -390,11 +409,11 @@ function replaceNormalText()
 	function onNewElement() 
 		{
 			document.removeEventListener ('DOMNodeInserted', onNewElement);
-
+			console.log(Math.round(200000 / BerryAmount));
 			setInterval(function()
 				{
 					document.addEventListener ('DOMNodeInserted', onNewElement);
-				}, round(10 * (2000 / BerryAmount)));
+				}, Math.round(200000 / BerryAmount));
 			if(BerryAmount)
 			{
 				UnleashTheBerry();
